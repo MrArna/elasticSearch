@@ -1,33 +1,43 @@
 package Actors
 
-import Messages.{Calculate, PiApproximation, Result, Work}
+import Messages._
 import akka.actor.{Actor, ActorRef, Props}
 import akka.routing.RoundRobinPool
-
-import scala.concurrent.duration.Duration
 
 /**
   * Created by Marco on 21/10/16.
   */
-class Master(nrOfWorkers: Int, nrOfMessages: Int, nrOfElements: Int, listener: ActorRef) extends Actor
+class Master(init: Int, nrOfWorkers: Int, nrOfProjects:Int, sinker: ActorRef) extends Actor
 {
-    var pi: Double = _
-    var nrOfResults: Int = _
+    var nrOfDownload: Int = _
     val start: Long = System.currentTimeMillis
 
-    val workerRouter = context.actorOf(
-      Props[Worker].withRouter(RoundRobinPool(nrOfWorkers)), name = "workerRouter")
+    //val workerRouter = context.actorOf(
+      //Props[Worker].withRouter(RoundRobinPool(nrOfWorkers)), name = "workerRouter")
+
+    val downloaderRouter = context.actorOf(
+      Props[Downloader].withRouter(RoundRobinPool(nrOfWorkers)), name = "downloaderRouter")
+
+    val uploaderRouter = context.actorOf(
+      Props[Uploader].withRouter(RoundRobinPool(nrOfWorkers)), name = "uploaderRouter")
 
     def receive = {
-      case Calculate ⇒
-        for (i ← 0 until nrOfMessages) workerRouter ! Work(i * nrOfElements, nrOfElements)
-      case Result(value) ⇒
-        pi += value
-        nrOfResults += 1
-        if (nrOfResults == nrOfMessages) {
-          // Send the result to the listener
-          listener ! PiApproximation(pi, duration = Duration((System.currentTimeMillis - start), "millis"))
+      case Start ⇒
+        println("-> Master Started wih: " + nrOfWorkers + " " + init + " " + nrOfProjects)
+        for(id <- init until (init + nrOfProjects)) {
+          downloaderRouter ! DownloadProject(id)
+        }
+
+      case DownloadedProject(project) ⇒
+        uploaderRouter ! Send(project)
+
+      case Sent ⇒
+        nrOfDownload += 1
+        if (nrOfDownload == nrOfProjects) {
+          // Send the result to the sinker
+          sinker ! End
           // Stops this actor and all its supervised children
+          println("-> Master Ended")
           context.stop(self)
         }
     }

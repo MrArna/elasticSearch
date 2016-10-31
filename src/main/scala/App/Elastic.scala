@@ -1,30 +1,56 @@
 package App
 
-import Actors.{Listener, Master}
-import Messages.Calculate
+import Actors.{Sinker, Master}
+import Messages.{Start}
 import akka.actor.{ActorSystem, Props}
 
 /**
   * Created by Marco on 21/10/16.
   */
-object Elastic extends App {
+object Elastic {
+
+  val usage = """
+    Usage:   -i <starting-project-id> -n <nr-of-projects>  -w <nr-of-workers>
+              """
+
+  type OptionMap = Map[Symbol, Any]
+
+  def nextOption(map : OptionMap, list: List[String]) : OptionMap = {
+    def isSwitch(s : String) = (s(0) == '-')
+    list match {
+      case Nil => map
+      case "-i" :: value :: tail => nextOption(map ++ Map('init -> value.toInt), tail)
+      case "-n" :: value :: tail => nextOption(map ++ Map('nrOfProjects -> value.toInt), tail)
+      case "-w" :: value :: tail => nextOption(map ++ Map('workers -> value.toInt), tail)
+      case string :: opt2 :: tail if isSwitch(opt2) => nextOption(map ++ Map('infile -> string), list.tail)
+      case string :: Nil =>  nextOption(map ++ Map('infile -> string), list.tail)
+    }
+  }
 
 
-  calculate(nrOfWorkers = 4, nrOfElements = 10000, nrOfMessages = 10000)
 
-  def calculate(nrOfWorkers: Int, nrOfElements: Int, nrOfMessages: Int) {
-    // Create an Akka system
+
+  def main(args: Array[String]) {
+    if (args.length == 0) println(usage)
+    val arglist = args.toList
+
+    val options = nextOption(Map(), arglist)
+
     val system = ActorSystem("ElasticSystem")
-
-    // create the result listener, which will print the result and shutdown the system
-    val listener = system.actorOf(Props[Listener], name = "listener")
-
+    val sinker = system.actorOf(Props[Sinker], name = "listener")
     // create the master
-    val master = system.actorOf(Props(new Master(nrOfWorkers, nrOfMessages, nrOfElements, listener)),name = "master")
+    val master = system.actorOf(Props(new Master(
+                                                  init = options.get('init).get.asInstanceOf[Int],
+                                                  nrOfProjects = options.get('nrOfProjects).get.asInstanceOf[Int],
+                                                  nrOfWorkers = options.get('workers).get.asInstanceOf[Int],
+                                                  sinker = sinker)
+                                                ), name = "master")
+    // start the downloading process
+    master ! Start
 
-    // start the calculation
-    master ! Calculate
+
 
   }
+
 }
 
