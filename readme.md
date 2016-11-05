@@ -1,0 +1,72 @@
+CS441 @ UIC: HOMEWORK3
+======================
+Developed by Marco Arnaboldi (marnab2@uic.edu)
+
+#Description
+--------------------
+A goal of this homework is to create a code search engine based on ElasticSearch (https://www.elastic.co/about/partners/google-compute-engine). You will deploy your code search engine in the Google Cloud using your provided Google Cloud accounts. Your client program will take key words from users and then it will make a REST call to your web service that will use the key words to retrieve software projects where these key words are located. As parameters to your web service, clients can specify in what attributes they want to search the key words (e.g., language, committers, issues, or code) and how many results they want to retrieve
+
+#Development & Design choices
+-----------------
+
+######Client 
+The client script was developed using pyhton. Its main purpose is to provide a simple and intuitive tool to query the elastic cluster. 
+
+######Elastic Cluster
+The ElasticSearch engine is deployed on the Google Cloud Platform. After a comparision between the development stack 
+provided by Elastic(https://www.elastic.co) and the one provided by Bitnami(https://bitnami.com), I've decided to deploy the 
+second one. This decison was taken, based on the fact that the Bitnami stack required less computational resources (e.g. VM) and it
+was also integrated with a UI in order to work via browser with the search engine.
+
+######Application
+The application was developed with with IntelliJIDEA IDE. SBT was also exploited in order to manage the libraries. In particular it was developed using the following environment: OS X 10 native.
+The application was written in Scala, adopting the Akka framework.
+
+In the following schema is represented the general flow of communication between the actors.
+
+
+
+
+
+It has been designed in order to be as extendable as possible. In detail, it's composed by 3 modules composed by submodules and/or classes:
+
++ **App**: contains the object in charge to launch the actor system
+    + *Elastic*: this object parses the args passed from the user and then instantiate the actor system with that configuration
+
++ **Actors**: contains all the actors that compose the Akka actor system
+    + *Master*: this actor creates the pools of actors and manages the communication between pools
+    + *Downloader*: this akka http actor is in charge to make an http request to the Olholo API rest service, parse its response and send
+    the just retrieved data back to the master
+    + *Parser*: this akka http actor is in charge to enrich the data that receive with a field that is a bag of word of the project, if its a public project that is possible to clone
+    + *Uploader*: this akka http actor is in charge to upload the data to the elastic search cluster
+    + *Sinker*: this akka actor is in charge to close the system and to terminate the application
+
++ **Messages**: contains the messages passed and received by the actors 
+  
+Further information about actors and messages can be found as comment into the code.
+
+#Functionalities
+----------------
+
+The application downloads a number of project information from Olholo starting from a given project number. At the moment it is able to 
+clone and analyze only projects developed using the SVN versioning system. The script provides some queries to the search engine.
+During the work I've noticed that only a small amount of the projects available on Olholo are publicly accessible. In fact the greater part of them
+ask for credential when I try to clone the repository locally.
+
+
+#Usage
+----------------
+
+######Script
+
+#####Application
+
+#Test
+----------------
+##### TestKit
+Automated tests with TestKit were made for actors in order to prove the correct behaviour.
+
+##### Other tests
+
+#Acknowledgments
+---------------

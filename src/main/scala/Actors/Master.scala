@@ -9,17 +9,19 @@ import akka.routing.RoundRobinPool
   */
 class Master(init: Int, nrOfWorkers: Int, nrOfProjects:Int, sinker: ActorRef) extends Actor
 {
-    var nrOfDownload: Int = _
+    var nrOfDownload: Int = 0
+    var nrOfDowloadFailed: Int = 0
     val start: Long = System.currentTimeMillis
-
-    //val workerRouter = context.actorOf(
-      //Props[Worker].withRouter(RoundRobinPool(nrOfWorkers)), name = "workerRouter")
 
     val downloaderRouter = context.actorOf(
       Props[Downloader].withRouter(RoundRobinPool(nrOfWorkers)), name = "downloaderRouter")
 
     val uploaderRouter = context.actorOf(
       Props[Uploader].withRouter(RoundRobinPool(nrOfWorkers)), name = "uploaderRouter")
+
+    val parserRouter = context.actorOf(
+      Props[Parser].withRouter(RoundRobinPool(nrOfWorkers)), name = "parserRouter")
+
 
     def receive = {
       case Start ⇒
@@ -28,17 +30,35 @@ class Master(init: Int, nrOfWorkers: Int, nrOfProjects:Int, sinker: ActorRef) ex
           downloaderRouter ! DownloadProject(id)
         }
 
-      case DownloadedProject(project) ⇒
-        uploaderRouter ! Send(project)
+      case Parse(prjId,json) ⇒
+        println("-> Master send \"Parse\" with: " +prjId)
+        parserRouter ! Parse(prjId,json)
 
-      case Sent ⇒
-        nrOfDownload += 1
-        if (nrOfDownload == nrOfProjects) {
+      case Parsed(source) ⇒
+        println("-> Master received \"Parsed\" and forward it ")
+        uploaderRouter ! Send(source)
+
+      case DownloadFailced =>
+        nrOfDowloadFailed += 1
+        if ((nrOfDownload + nrOfDowloadFailed) == nrOfProjects) {
           // Send the result to the sinker
           sinker ! End
           // Stops this actor and all its supervised children
           println("-> Master Ended")
           context.stop(self)
+          System.exit(0)
+        }
+
+      case Sent ⇒
+        nrOfDownload += 1
+        //println("Project attempted = " + (nrOfDownload + nrOfDowloadFailed) + ", completed: " + nrOfDownload + ", failed: " + nrOfDowloadFailed)
+        if ((nrOfDownload + nrOfDowloadFailed) == nrOfProjects) {
+          // Send the result to the sinker
+          sinker ! End
+          // Stops this actor and all its supervised children
+          println("-> Master Ended")
+          context.stop(self)
+          System.exit(0)
         }
     }
 }

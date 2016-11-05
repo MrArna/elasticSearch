@@ -15,6 +15,8 @@ object Elastic {
 
   type OptionMap = Map[Symbol, Any]
 
+
+  //read args and map values
   def nextOption(map : OptionMap, list: List[String]) : OptionMap = {
     def isSwitch(s : String) = (s(0) == '-')
     list match {
@@ -36,8 +38,9 @@ object Elastic {
 
     val options = nextOption(Map(), arglist)
 
-    val system = ActorSystem("ElasticSystem")
-    val sinker = system.actorOf(Props[Sinker], name = "listener")
+    val system = ActorSystem("ElasticSystem") //init system
+    val sinker = system.actorOf(Props[Sinker], name = "Sinker") //init sinker
+
     // create the master
     val master = system.actorOf(Props(new Master(
                                                   init = options.get('init).get.asInstanceOf[Int],
@@ -45,7 +48,7 @@ object Elastic {
                                                   nrOfWorkers = options.get('workers).get.asInstanceOf[Int],
                                                   sinker = sinker)
                                                 ), name = "master")
-    // start the downloading process
+    // start the actor system
     master ! Start
 
 

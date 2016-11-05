@@ -3,15 +3,13 @@ package Actors
 import Messages.{Send, Sent}
 import akka.NotUsed
 import akka.actor.Actor
-import akka.actor.Actor.Receive
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpMethods._
-import akka.http.scaladsl.model.headers.BasicHttpCredentials
 import akka.http.scaladsl.model._
-import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
+import akka.http.scaladsl.model.headers.BasicHttpCredentials
 import akka.stream.scaladsl.{Flow, Keep, RunnableGraph, Sink, Source}
+import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import akka.util.ByteString
-import org.json4s.JsonAST.JValue
+import org.json4s.DefaultFormats
 import org.json4s.jackson._
 
 import scala.concurrent.duration.Duration
@@ -24,10 +22,13 @@ class Uploader extends Actor {
 
   final implicit val materializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(context.system))
   final implicit val executionContext = context.system.dispatcher
+  implicit val formats = DefaultFormats
 
-  def send(data: JValue) =
+
+  def send(data: String): Any =
   {
 
+    //create and send the request via http to the cluster
     val http = Http(context.system)
     import HttpMethods._
 
@@ -35,15 +36,16 @@ class Uploader extends Actor {
 
     val auth = headers.Authorization(BasicHttpCredentials("user","BwxuUA27"))
 
+    val jsonData = parseJson(data)
 
-    //println(prettyJson(data \ "project"))
+    //println(prettyJson(data \ "project" \ "id"))
 
     val request:HttpRequest=
       HttpRequest(
         POST,
-        uri = "http://146.148.93.156:80/elasticsearch/projects/none",
+        uri = "http://146.148.93.156:80/elasticsearch/projects/openHub/" + (jsonData \ "id").extract[String],
         headers = List(auth),
-        entity = HttpEntity(ContentTypes.`application/json`,prettyJson(data \ "project"))
+        entity = HttpEntity(ContentTypes.`application/json`,prettyJson(jsonData))
 
       )
     val fut : Future[HttpResponse] = http.singleRequest(request)
@@ -69,7 +71,8 @@ class Uploader extends Actor {
   override def receive: Receive = {
 
     case Send(data) ⇒
-      println("--> Uploader" + context.self.toString() + "Started")
+      println("--> Uploader Started")
+      send(data)
       sender ! Sent
 
   }
