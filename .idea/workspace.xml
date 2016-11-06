@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="daebf7a2-7d41-4f5e-817f-82f493cc735d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/elasticQuery.py" afterPath="$PROJECT_DIR$/elasticQuery.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Actors/Downloader.scala" afterPath="$PROJECT_DIR$/src/main/scala/Actors/Downloader.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Actors/Parser.scala" afterPath="$PROJECT_DIR$/src/main/scala/Actors/Parser.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Actors/Uploader.scala" afterPath="$PROJECT_DIR$/src/main/scala/Actors/Uploader.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/App/Elastic.scala" afterPath="$PROJECT_DIR$/src/main/scala/App/Elastic.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cs441-HW3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1021,7 +1016,7 @@
       <workItem from="1476806750980" duration="885000" />
       <workItem from="1477065432923" duration="5619000" />
       <workItem from="1477321500050" duration="18554000" />
-      <workItem from="1477379260113" duration="50699000" />
+      <workItem from="1477379260113" duration="51005000" />
     </task>
     <servers />
   </component>
@@ -1058,7 +1053,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75757000" />
+    <option name="totallyTimeSpent" value="76063000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
