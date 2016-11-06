@@ -24,8 +24,11 @@ The application was written in Scala, adopting the Akka framework.
 
 In the following schema is represented the general flow of communication between the actors.
 
-![Alt text](https://bitbucket.org/MrArnab/marco_arnaboldi_cs441hw3/src/eee3de1da7378a8a2048acea066835a45422c88c/images/HW3-flow.png)
+![Alt text](https://bytebucket.org/MrArnab/marco_arnaboldi_cs441hw3/raw/eee3de1da7378a8a2048acea066835a45422c88c/images/HW3-flow.png?token=71ce8e0e4dd07115fc5a8fba12e1e61e0b069ce3)
 
+In the second one, how is organized the actor system, using a telecommunication schema:
+
+![Alt text](https://bytebucket.org/MrArnab/marco_arnaboldi_cs441hw3/raw/eee3de1da7378a8a2048acea066835a45422c88c/images/HW3-network.png?token=13681f734044ed5b96d48cbf656861b5f8e3a5df)
 
 
 It has been designed in order to be as extendable as possible. In detail, it's composed by 3 modules composed by submodules and/or classes:
