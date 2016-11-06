@@ -59,14 +59,26 @@ ask for credential when I try to clone the repository locally.
 
 ######Script
 
+`python elasticQuery.py`
+
+Tested and working with python 2.7.12.
+
 #####Application
+
+`sbt run -i <starting-project-id> -n <nr-of-projects>  -w <nr-of-workers>`
+
+Git enabled for svn should be installed and configured for the terminal. Working on OSX.
 
 #Test
 ----------------
 ##### TestKit
-Automated tests with TestKit were made for actors in order to prove the correct behaviour.
+Automated tests with TestKit were made for actors in order to prove the correct behaviour. The actors tested were the HTTP actors,
+since their behaviour is the most complicated.
 
-##### Other tests
+##### Load test
+Load tests were made in order to verify the scalability in term of response of the elastic cluster.
+In order to do so the SOAPUI tool were used. Different requests were made using a "thread approach", this means that the
+number of threads making the requests increased during a time window of 60 seconds. The following graphs represent the obtained results:
 
 #Acknowledgments
 ---------------

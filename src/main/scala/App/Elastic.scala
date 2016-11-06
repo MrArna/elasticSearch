@@ -33,7 +33,10 @@ object Elastic {
 
 
   def main(args: Array[String]) {
-    if (args.length == 0) println(usage)
+    if (args.length == 0) {
+      println(usage)
+      System.exit(0)
+    }
     val arglist = args.toList
 
     val options = nextOption(Map(), arglist)

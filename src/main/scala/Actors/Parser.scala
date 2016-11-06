@@ -3,7 +3,7 @@ package Actors
 import java.io.File
 import java.nio.charset.MalformedInputException
 
-import Messages.{Parse, Parsed}
+import Messages.{DownloadFailced, Parse, Parsed}
 import akka.NotUsed
 import akka.actor.Actor
 import akka.http.scaladsl.Http
@@ -146,7 +146,11 @@ class Parser extends Actor {
 
       //println(parsing(id,json))
 
-      sender ! Parsed(parsing(id,json))
+      try{
+        sender ! Parsed(parsing(id,json))
+      }catch {
+        case ex : Exception => sender ! DownloadFailced
+      }
 
   }
 

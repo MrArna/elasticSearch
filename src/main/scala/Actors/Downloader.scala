@@ -87,13 +87,17 @@ class Downloader extends Actor {
   override def receive: Receive = {
 
     case DownloadProject(nrOfProjects) ⇒
-      println("--> Downloader " + "Started")
-      request(nrOfProjects)
-      if (json != null){
-        sender ! Parse((json \ "project" \ "id").extract[String], jackson.prettyJson(json))
-      }
-      else{
-        sender ! DownloadFailced
+      try {
+        println("--> Downloader " + "Started")
+        request(nrOfProjects)
+        if (json != null) {
+          sender ! Parse((json \ "project" \ "id").extract[String], jackson.prettyJson(json))
+        }
+        else {
+          sender ! DownloadFailced
+        }
+      } catch {
+          case ex : Exception => sender ! DownloadFailced
       }
 
 

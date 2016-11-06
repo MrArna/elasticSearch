@@ -1,6 +1,6 @@
 package Actors
 
-import Messages.{Send, Sent}
+import Messages.{DownloadFailced, Send, Sent}
 import akka.NotUsed
 import akka.actor.Actor
 import akka.http.scaladsl.Http
@@ -71,10 +71,13 @@ class Uploader extends Actor {
   override def receive: Receive = {
 
     case Send(data) ⇒
-      println("--> Uploader Started")
-      send(data)
-      sender ! Sent
-
+      try {
+        println("--> Uploader Started")
+        send(data)
+        sender ! Sent
+      } catch {
+          case ex : Exception => sender ! DownloadFailced
+      }
   }
 
 }
