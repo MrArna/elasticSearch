@@ -4,7 +4,7 @@ Developed by Marco Arnaboldi (marnab2@uic.edu)
 
 #Description
 --------------------
-A goal of this homework is to create a code search engine based on ElasticSearch (https://www.elastic.co/about/partners/google-compute-engine). You will deploy your code search engine in the Google Cloud using your provided Google Cloud accounts. Your client program will take key words from users and then it will make a REST call to your web service that will use the key words to retrieve software projects where these key words are located. As parameters to your web service, clients can specify in what attributes they want to search the key words (e.g., language, committers, issues, or code) and how many results they want to retrieve
+A goal of this homework is to create a code search engine based on [ElasticSearch](https://www.elastic.co/about/partners/google-compute-engine). You will deploy your code search engine in the Google Cloud using your provided Google Cloud accounts. Your client program will take key words from users and then it will make a REST call to your web service that will use the key words to retrieve software projects where these key words are located. As parameters to your web service, clients can specify in what attributes they want to search the key words (e.g., language, committers, issues, or code) and how many results they want to retrieve
 
 #Development & Design choices
 -----------------
@@ -14,7 +14,7 @@ The client script was developed using pyhton. Its main purpose is to provide a s
 
 ######Elastic Cluster
 The ElasticSearch engine is deployed on the Google Cloud Platform. After a comparision between the development stack 
-provided by Elastic(https://www.elastic.co) and the one provided by Bitnami(https://bitnami.com), I've decided to deploy the 
+provided by [Elastic](https://www.elastic.co) and the one provided by [Bitnami](https://bitnami.com), I've decided to deploy the 
 second one. This decison was taken, based on the fact that the Bitnami stack required less computational resources (e.g. VM) and it
 was also integrated with a UI in order to work via browser with the search engine.
 
@@ -24,7 +24,7 @@ The application was written in Scala, adopting the Akka framework.
 
 In the following schema is represented the general flow of communication between the actors.
 
-
+![Alt text]()
 
 
 
