@@ -86,6 +86,7 @@ number of threads making the requests increased during a time window of 60 secon
 
 ##### Credential
 The followings are the credential needed in order to access the Elastic search cluster deployed on Google Clouds:
+
 | Property      | Value     |
 | ------------- | --------- |
 | User          | user      |
