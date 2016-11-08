@@ -11,6 +11,7 @@ A goal of this homework is to create a code search engine based on [ElasticSearc
 
 ######Client 
 The client script was developed using pyhton. Its main purpose is to provide a simple and intuitive tool to query the elastic cluster. 
+It returns in JSON format the list of file, where the different keywords were found.
 
 ######Elastic Cluster
 The ElasticSearch engine is deployed on the Google Cloud Platform. After a comparision between the development stack 
