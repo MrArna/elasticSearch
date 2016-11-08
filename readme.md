@@ -77,7 +77,7 @@ Git enabled for svn should be installed and configured for the terminal. Working
 ----------------
 ##### TestKit
 Automated tests with TestKit were made for actors in order to prove the correct behaviour. The actors tested were the HTTP actors,
-since their behaviour is the most complicated.
+since their behaviour is the most complicated. Also the master behaviour was tested.
 
 ##### Load test
 Load tests were made in order to verify the scalability in term of response of the elastic cluster.
@@ -86,3 +86,4 @@ number of threads making the requests increased during a time window of 60 secon
 
 #Acknowledgments
 ---------------
+Inspiration was taken by the Akka documentation and tutorials provided online.

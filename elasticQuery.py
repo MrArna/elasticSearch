@@ -30,15 +30,15 @@ def structureQuery():
   json_data = json.loads(response.text)
   print (json.dumps(json_data, indent=4, sort_keys=True))
 
-def structureQuery():
-  keywords = raw_input("Enter keyword: ")
-  response = requests.get(server + "projects/_search?q=sourceCode:" + keywords, auth = auth)
+def contributorQuery():
+  keywords = raw_input("Enter nr. of contributor: ")
+  response = requests.get(server + "projects/_search?q=project_activity_index.description:" + keywords, auth = auth)
   json_data = json.loads(response.text)
   print (json.dumps(json_data, indent=4, sort_keys=True))
 
-def structureQuery():
-  keywords = raw_input("Enter keyword: ")
-  response = requests.get(server + "projects/_search?q=sourceCode:" + keywords, auth = auth)
+def inactiveQuery():
+  keywords = "Inactive"
+  response = requests.get(server + "projects/_search?q=project_activity_index.description:" + keywords, auth = auth)
   json_data = json.loads(response.text)
   print (json.dumps(json_data, indent=4, sort_keys=True))
 
@@ -50,8 +50,8 @@ while ans:
   print("2 - Project description")
   print("3 - Language")
   print("4 - Data structure")
-  print("5 - Active")
-  print("6 - Level")
+  print("5 - Inactive")
+  print("6 - Contributors")
   print("7 - Exit")
 
   ans = raw_input("Your decision: ")
@@ -65,9 +65,9 @@ while ans:
   elif ans=="4":
     structureQuery()
   elif ans=="5":
-    languageQuery()
+    inactiveQuery()
   elif ans=="6":
-    languageQuery()
+    contributorQuery()
   elif ans=="7":
     print("\n Goodbye") 
     ans = False

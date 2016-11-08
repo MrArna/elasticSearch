@@ -40,14 +40,7 @@ class Master(init: Int, nrOfWorkers: Int, nrOfProjects:Int, sinker: ActorRef) ex
 
       case DownloadFailced =>
         nrOfDowloadFailed += 1
-        if ((nrOfDownload + nrOfDowloadFailed) == nrOfProjects) {
-          // Send the result to the sinker
-          sinker ! End
-          // Stops this actor and all its supervised children
-          println("-> Master Ended")
-          context.stop(self)
-          System.exit(0)
-        }
+
 
       case Sent ⇒
         nrOfDownload += 1
