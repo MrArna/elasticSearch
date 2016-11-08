@@ -84,6 +84,14 @@ Load tests were made in order to verify the scalability in term of response of t
 In order to do so the SOAPUI tool were used. Different requests were made using a "thread approach", this means that the
 number of threads making the requests increased during a time window of 60 seconds. The following graphs represent the obtained results:
 
+##### Credential
+The followings are the credential needed in order to access the Elastic search cluster deployed on Google Clouds:
+| Property      | Value     |
+| ------------- | --------- |
+| User          | user      |
+| Password      | BwxuUA27  |
+
+
 #Acknowledgments
 ---------------
 Inspiration was taken by the Akka documentation and tutorials provided online.
