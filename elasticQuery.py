@@ -6,41 +6,61 @@ import json
 server = "http://146.148.93.156:80/elasticsearch/"
 auth=HTTPBasicAuth("user","BwxuUA27")
 
+
+def prettyResult(json):
+  print("****** RESULTS ******")
+  if (json["hits"]["total"] == 0):
+    print ("No results found")
+  else:
+    for hit in json["hits"]["hits"]:
+      print ("--> " + hit["_source"]["name"])
+  print("**********************")
+
 def nameQuery():
   keywords = raw_input("Enter keyword: ")
   response = requests.get(server + "projects/_search?q=name:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
+
 
 def descriptionQuery():
   keywords = raw_input("Enter keyword: ")
   response = requests.get(server + "projects/_search?q=description:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
+
 
 def languageQuery():
   keywords = raw_input("Enter keyword: ")
   response = requests.get(server + "projects/_search?q=analysis.main_language_name:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
 
 def structureQuery():
   keywords = raw_input("Enter keyword: ")
   response = requests.get(server + "projects/_search?q=sourceCode:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
+
 
 def contributorQuery():
   keywords = raw_input("Enter nr. of contributor: ")
   response = requests.get(server + "projects/_search?q=project_activity_index.description:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
 
 def inactiveQuery():
   keywords = "Inactive"
   response = requests.get(server + "projects/_search?q=project_activity_index.description:" + keywords, auth = auth)
   json_data = json.loads(response.text)
-  print (json.dumps(json_data, indent=4, sort_keys=True))
+  #print (json.dumps(json_data, indent=4, sort_keys=True))
+  prettyResult(json_data)
+
 
 ans = True
 
