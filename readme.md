@@ -49,14 +49,18 @@ It has been designed in order to be as extendable as possible. In detail, it's c
   
 Further information about actors and messages can be found as comment into the code.
 
-#Functionalities
+#Functionalities and Personal notes
 ----------------
+
+#####Functionalities
 
 The application downloads a number of project information from Olholo starting from a given project number. At the moment it is able to 
 clone and analyze only projects developed using the SVN versioning system. The script provides some queries to the search engine.
-During the work I've noticed that only a small amount of the projects available on Olholo are publicly accessible. In fact the greater part of them
-ask for credential when I try to clone the repository locally.
 
+#####Personal Notes
+
+During the work I've noticed that only a small amount of the projects available on Olholo are publicly accessible. In fact the greater part of them asks for credential when I try to clone the repository locally.
+This significantly reduced the amount of available projects for parsing. Furthermore, the limited amount of API requests per day limits the number of project to analyze to 500 per day, since my implementation makes 2 API calls for each project to be analyzed. 
 
 #Usage
 ----------------
@@ -86,6 +90,7 @@ number of threads making the requests increased during a time window of 60 secon
 
 ##### Credential
 The followings are the credential needed in order to access the Elastic search cluster deployed on Google Clouds:
+
 | Property      | Value     |
 | ------------- | --------- |
 | User          | user      |
