@@ -49,7 +49,7 @@ It has been designed in order to be as extendable as possible. In detail, it's c
   
 Further information about actors and messages can be found as comment into the code.
 
-#Functionalities and Personal notes
+# Functionalities and Personal notes
 ----------------
 
 ##### Functionalities
