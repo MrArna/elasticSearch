@@ -1,25 +1,25 @@
-CS441 @ UIC: HOMEWORK3
+ELASTIC SEARCH CODE ANALYZER
 ======================
-Developed by Marco Arnaboldi (marnab2@uic.edu)
+Developed by Marco Arnaboldi (marnab2@uic.edu) as CS441 @ UIC: HOMEWORK3
 
-#Description
+# Description
 --------------------
 A goal of this homework is to create a code search engine based on [ElasticSearch](https://www.elastic.co/about/partners/google-compute-engine). You will deploy your code search engine in the Google Cloud using your provided Google Cloud accounts. Your client program will take key words from users and then it will make a REST call to your web service that will use the key words to retrieve software projects where these key words are located. As parameters to your web service, clients can specify in what attributes they want to search the key words (e.g., language, committers, issues, or code) and how many results they want to retrieve
 
-#Development & Design choices
+# Development & Design choices
 -----------------
 
-######Client 
+###### Client 
 The client script was developed using pyhton. Its main purpose is to provide a simple and intuitive tool to query the elastic cluster. 
 It returns in JSON format the list of file, where the different keywords were found.
 
-######Elastic Cluster
+###### Elastic Cluster
 The ElasticSearch engine is deployed on the Google Cloud Platform. After a comparision between the development stack 
 provided by [Elastic](https://www.elastic.co) and the one provided by [Bitnami](https://bitnami.com), I've decided to deploy the 
 second one. This decison was taken, based on the fact that the Bitnami stack required less computational resources (e.g. VM) and it
 was also integrated with a UI in order to work via browser with the search engine.
 
-######Application
+###### Application
 The application was developed with with IntelliJIDEA IDE. SBT was also exploited in order to manage the libraries. In particular it was developed using the following environment: OS X 10 native.
 The application was written in Scala, adopting the Akka framework.
 
@@ -52,32 +52,32 @@ Further information about actors and messages can be found as comment into the c
 #Functionalities and Personal notes
 ----------------
 
-#####Functionalities
+##### Functionalities
 
 The application downloads a number of project information from Olholo starting from a given project number. At the moment it is able to 
 clone and analyze only projects developed using the SVN versioning system. The script provides some queries to the search engine.
 
-#####Personal Notes
+##### Personal Notes
 
 During the work I've noticed that only a small amount of the projects available on Olholo are publicly accessible. In fact the greater part of them asks for credential when I try to clone the repository locally.
 This significantly reduced the amount of available projects for parsing. Furthermore, the limited amount of API requests per day limits the number of project to analyze to 500 per day, since my implementation makes 2 API calls for each project to be analyzed. 
 
-#Usage
+# Usage
 ----------------
 
-######Script
+###### Script
 
 `python elasticQuery.py`
 
 Tested and working with python 2.7.12.
 
-#####Application
+##### Application
 
 `sbt run -i <starting-project-id> -n <nr-of-projects>  -w <nr-of-workers>`
 
 Git enabled for svn should be installed and configured for the terminal. Working on OSX.
 
-#Test
+# Test
 ----------------
 ##### TestKit
 Automated tests with TestKit were made for actors in order to prove the correct behaviour. The actors tested were the HTTP actors,
@@ -97,6 +97,6 @@ The followings are the credential needed in order to access the Elastic search c
 | Password      | BwxuUA27  |
 
 
-#Acknowledgments
+# Acknowledgments
 ---------------
 Inspiration was taken by the Akka documentation and tutorials provided online.
